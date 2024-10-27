@@ -57,17 +57,18 @@ while isRunning:
             if event.key == pygame.K_3:
                 vShader = vertex_shader
                 rend.SetShaders(vShader, fShader)
-           
+
             if event.key == pygame.K_4:
-                vShader = fat_shader
+                fShader = fragment_shader
                 rend.SetShaders(vShader, fShader)
-                
+
             if event.key == pygame.K_5:
                 vShader = water_shader
                 rend.SetShaders(vShader, fShader)
                 
+
             if event.key == pygame.K_6:
-                fShader = fragment_shader
+                vShader = fat_shader
                 rend.SetShaders(vShader, fShader)
                 
             if event.key == pygame.K_7:
