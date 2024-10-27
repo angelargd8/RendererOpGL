@@ -1,4 +1,3 @@
-from operator import neg
 import pygame
 from pygame.locals import *
 from gl import Renderer
@@ -17,11 +16,11 @@ screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEB
 clock = pygame.time.Clock()
 
 rend  = Renderer(screen)
-rend.SetShaders(vertex_shader, fragment_shader)
+# rend.SetShaders(vertex_shader, fragment_shader)
 
 faceModel =Model("models/model.obj")
 faceModel.AddTexture("textures/model.bmp")
-faceModel.rotation.y = 180
+faceModel.rotation.y = 0
 faceModel.translation.z =-5
 faceModel.scale.x = 2
 faceModel.scale.y = 2
