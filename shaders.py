@@ -182,7 +182,7 @@ void main()
     vec4 color = texture(tex, outTexCoords);
     float gray = (color.r + color.g + color.b) / 3;
     float white = 1.0 - gray;
-    vec4 radioactiveColor = vec4(gray, white, gray / 2, 1.0);
+    vec4 radioactiveColor = vec4(0.0, gray, 0.0, 1.0);
 
     //parpadeo
     float intensity = sin(time * 10) / 2 + 0.5;

@@ -5,6 +5,7 @@ from buffer import Buffer
 from shaders import *
 from model import Model
 import glm
+from camera import Camera
 
 width = 540
 height = 540
@@ -16,15 +17,18 @@ screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEB
 clock = pygame.time.Clock()
 
 rend  = Renderer(screen)
-# rend.SetShaders(vertex_shader, fragment_shader)
 
-faceModel =Model("models/model.obj")
-faceModel.AddTexture("textures/model.bmp")
-faceModel.rotation.y = 0
-faceModel.translation.z =-5
-faceModel.scale.x = 2
-faceModel.scale.y = 2
-faceModel.scale.z = 2
+faceModel =Model("models/pollo.obj")
+faceModel.AddTexture("textures/pollo.bmp")
+rend.camera.position = glm.vec3(0,2,0)
+
+faceModel.rotation.y = 90
+faceModel.translation.z =-10
+# faceModel.translation.y = -2
+
+faceModel.scale.x = 1
+faceModel.scale.y = 1
+faceModel.scale.z = 1
 
 
 rend.scene.append(faceModel)
@@ -88,6 +92,7 @@ while isRunning:
                 rend.SetShaders(vShader, fShader)
                
             if event.key == pygame.K_0:
+                faceModel.translation.z =-16
                 vShader = rotate_shader 
                 rend.SetShaders(vShader, fShader)
   
