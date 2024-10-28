@@ -64,17 +64,32 @@ while isRunning:
 
             if event.key == pygame.K_5:
                 vShader = water_shader
+                fShader = water_color_shader
                 rend.SetShaders(vShader, fShader)
                 
 
             if event.key == pygame.K_6:
-                vShader = fat_shader
+                #vShader = fat_shader
+                # fShader = negative_shader
+                vShader = rotate1_shader
+                fShader = rainbow_shader
                 rend.SetShaders(vShader, fShader)
                 
             if event.key == pygame.K_7:
-                fShader = negative_shader
+                vShader = close_shader
+                rend.SetShaders(vShader, fShader)
+
+            if event.key == pygame.K_8:
+                fShader = radioactive_shader 
+                rend.SetShaders(vShader, fShader)
+
+            if event.key == pygame.K_9:
+                fShader = distorsion_shader 
                 rend.SetShaders(vShader, fShader)
                
+            if event.key == pygame.K_0:
+                vShader = rotate_shader 
+                rend.SetShaders(vShader, fShader)
   
     if keys[K_LEFT]:
         # faceModel.rotation.y -= 10 * deltaTime #10 grados *seg

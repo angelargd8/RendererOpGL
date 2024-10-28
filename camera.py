@@ -32,6 +32,9 @@ class Camera(object):
 
     def CreateProjectionMatrix(self, fov, nearPlane, farPlane):
         self.projectionMatrix = glm.perspective(glm.radians(fov), self.screenWidth/self.screenHeight, nearPlane, farPlane)
+
+    def GetPosition(self):
+        return self.position 
         
     # def LookAt(self, eye): #eyes se refuere al punto de destino, a donde quiero ver
     #     viewMatrix =glm.LookAt(eye, self.position, glm.vec3(0,1,0)) #regresa una matriz

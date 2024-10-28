@@ -35,8 +35,6 @@ class Renderer(object):
         else: 
             self.active_shaders= None
             
-
-        
     
     def Render(self): 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -56,7 +54,9 @@ class Renderer(object):
             
             glUniform3fv(glGetUniformLocation(self.active_shaders, "pointLight"), 1, glm.value_ptr(self.pointLight))
             
-
+            camera_position = self.camera.GetPosition()
+            #glUniform3f(glGetUniformLocation(self.active_shaders, "cameraPosition"), camera_position.x, camera_position.y, camera_position.z)
+            glUniform3fv(glGetUniformLocation(self.active_shaders, "cameraPosition"), 1, glm.value_ptr(camera_position))
 
 
         for obj in self.scene:
