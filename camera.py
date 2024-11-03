@@ -1,11 +1,12 @@
 import glm 
 from OpenGL.GL import *
 from OpenGL.GL.shaders import compileProgram, compileShader
-
+from math import sin, cos, radians
 
 class Camera(object): 
     def __init__(self, width, height):
         self.position = glm.vec3(0,0,0)
+        #angulos de euler
         self.rotation = glm.vec3(0,0,0)
         #la camara no tiene escala
         self.screenWidth = width
@@ -36,9 +37,28 @@ class Camera(object):
     def GetPosition(self):
         return self.position 
         
-    # def LookAt(self, eye): #eyes se refuere al punto de destino, a donde quiero ver
-    #     viewMatrix =glm.LookAt(eye, self.position, glm.vec3(0,1,0)) #regresa una matriz
-    #     # # self.rotation = glm.eulerAngles(glm.quat_cast(viewMatrix))
-    #     # self.rotation = glm.degrees(glm.euler_angles(glm.quat_cast(viewMatrix)))
-    #     # #print(self.rotation)
+    def LookAt(self, center): #center el punto en el que nos vamos a estar enfocando
+        viewMatrix = glm.lookAt(self.position, center, glm.vec3(0,1,0)) #glm.ve3 es el vector de arriba, el vector de arriba es el vector que se va a estar viendo en la pantalla
+        
+        # """
+        # matrix
+        # 1,0,0,0
+        # 0,1,0,0
+        # 0,0,1,0
+        # 0,0,0,1
+        
+        # quaternion
+        # x, y, z, w
+
+        # """
+
+        camMatrix = glm.inverse(viewMatrix)
+
+        self.rotation = glm.degrees(glm.eulerAngles( glm.quat_cast(camMatrix) ) )  #nos da los angulos de euler
+
+    def Orbit(self, center, distance, angle): 
+        
+        self. position.x = center.x + sin(radians(angle)) * distance
+        self. position.z = center.z + cos(radians(angle)) * distance
+
         

@@ -5,7 +5,7 @@ from buffer import Buffer
 from shaders import *
 from model import Model
 import glm
-from camera import Camera
+from camera import *
 
 width = 540
 height = 540
@@ -18,8 +18,17 @@ clock = pygame.time.Clock()
 
 rend  = Renderer(screen)
 
-faceModel =Model("models/pollo.obj")
-faceModel.AddTexture("textures/pollo.bmp")
+skyboxTextures = ["textures/skybox/right.jpg", 
+                  "textures/skybox/left.jpg", 
+                  "textures/skybox/top.jpg", 
+                  "textures/skybox/bottom.jpg", 
+                  "textures/skybox/front.jpg", 
+                  "textures/skybox/back.jpg"]
+
+rend.CreateSkybox(skyboxTextures, skybox_vertex_shader, skybox_fragment_shader)
+
+faceModel =Model("models/model.obj")
+faceModel.AddTexture("textures/model.bmp")
 rend.camera.position = glm.vec3(0,2,0)
 
 faceModel.rotation.y = 90
@@ -36,6 +45,9 @@ rend.scene.append(faceModel)
 isRunning = True
 vShader  = vertex_shader
 fShader  = fragment_shader
+
+camDistance = 5 #esta es la que se manipula para el zoom in y out
+camAngle = 0
 
 rend.SetShaders(vShader, fShader)
 
@@ -117,20 +129,40 @@ while isRunning:
         rend.pointLight.y += 1 * deltaTime
 
     if keys[K_a]:
-        rend.camera.position.x -= 1 * deltaTime
-    
+        camAngle -= 45 * deltaTime
+
     if keys[K_d]:
-        rend.camera.position.x += 1 * deltaTime
+        camAngle += 45 * deltaTime
 
     if keys[K_w]:
-        rend.camera.position.y += 1 * deltaTime
-
+        camDistance -= 2 * deltaTime
+    
     if keys[K_s]:
-        rend.camera.position.y -= 1 * deltaTime #si no tuviera el delta time, se moveria una unidad
-        
+        camDistance += 2 * deltaTime
+    
+    # mouseButtons = pygame.mouse.get_pressed()
+
+    # if mouseButtons[0]:
+    #     camAngle += pygame.mouse.get_rel()[0] * deltaTime * 0.5
+
+
+
+    # if keys[K_a]:
+    #     rend.camera.position.x -= 1 * deltaTime
+    
+    # if keys[K_d]:
+    #     rend.camera.position.x += 1 * deltaTime
+
+    # if keys[K_w]:
+    #     rend.camera.position.y += 1 * deltaTime
+
+    # if keys[K_s]:
+    #     rend.camera.position.y -= 1 * deltaTime #si no tuviera el delta time, se moveria una unidad
+
+    rend.camera.LookAt(faceModel.translation)
+    rend.camera.Orbit(faceModel.translation, camDistance, camAngle)
     rend.time += deltaTime #delta time la acumulacion de los cuadros
-    #print(deltaTime)
-    #rend.camera.LookAt( faceModel.translation )
+
     rend.Render()
     pygame.display.flip()
     
