@@ -56,9 +56,11 @@ class Camera(object):
 
         self.rotation = glm.degrees(glm.eulerAngles( glm.quat_cast(camMatrix) ) )  #nos da los angulos de euler
 
-    def Orbit(self, center, distance, angle): 
-        
-        self. position.x = center.x + sin(radians(angle)) * distance
-        self. position.z = center.z + cos(radians(angle)) * distance
+    def Orbit(self, center, distance, angleX, angleY): 
+    
+        self.position.x = center.x + sin(radians(angleX)) * cos(radians(angleY)) * distance
+        self.position.y = center.y + sin(radians(angleY)) * distance
+        self.position.z = center.z + cos(radians(angleX)) * cos(radians(angleY)) * distance
+        self.LookAt(center)
 
         
