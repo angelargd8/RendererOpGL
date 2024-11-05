@@ -147,13 +147,13 @@ while isRunning:
     if keys[K_d]:
         camAngleX += 45 * deltaTime
 
-    if keys[K_w]:
+    if keys[K_s]:
         
         camAngleY -= 45 * deltaTime
         camAngleY = max(minCamAngleY, min(camAngleY, maxCamAngleY)) 
         # camDistance -= 45 * deltaTime
     
-    if keys[K_s]:
+    if keys[K_w]:
         camAngleY += 45 * deltaTime
         camAngleY = max(minCamAngleY, min(camAngleY, maxCamAngleY)) 
         # camDistance += 45 * deltaTime
