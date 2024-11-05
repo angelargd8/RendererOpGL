@@ -31,4 +31,4 @@ Eventos con el mouse:
 - mover el angulo de la camara con x y y al mantener presionado el click 
 
 Gif: 
-![](./ogl.gif)
+![](./olg.gif)
