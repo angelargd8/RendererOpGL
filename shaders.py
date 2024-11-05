@@ -39,12 +39,13 @@ in vec4 outPosition;
 
 uniform sampler2D tex;
 uniform vec3 pointLight;
+uniform float lightIntensity;
 
 out vec4 fragColor;
 
 void main()
 {
-    float intensity = dot(outNormals, normalize(pointLight - outPosition.xyz));
+    float intensity = dot(outNormals, normalize(pointLight - outPosition.xyz) * lightIntensity);
     fragColor = texture(tex, outTexCoords) * intensity;
 }
 

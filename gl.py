@@ -59,6 +59,8 @@ class Renderer(object):
             glUseProgram(self.active_shaders) #los shaders activos en ese momento
             
             glUniform1f(glGetUniformLocation(self.active_shaders, "time") , self.time)
+
+            glUniform1f(glGetUniformLocation(self.active_shaders, "lightIntensity") , 0.5)
         
             glUniformMatrix4fv(glGetUniformLocation(self.active_shaders, "viewMatrix"), #ubicacion
                                           1, GL_FALSE, #matrices
