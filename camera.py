@@ -32,7 +32,8 @@ class Camera(object):
             camMat = translateMat * rotationMat
 
             self.viewMatrix = glm.inverse(camMat)
-            return self.viewMatrix
+        return self.viewMatrix
+
     
     def GetProjectionMatrix(self):
         return self.projectionMatrix
@@ -45,7 +46,7 @@ class Camera(object):
         
     def LookAt(self, center): #center el punto en el que nos vamos a estar enfocando
         self.usingLookAt = True
-        viewMatrix = glm.lookAt(self.position, center, glm.vec3(0,1,0)) #glm.ve3 es el vector de arriba, el vector de arriba es el vector que se va a estar viendo en la pantalla
+        self.viewMatrix = glm.lookAt(self.position, center, glm.vec3(0,1,0)) #glm.ve3 es el vector de arriba, el vector de arriba es el vector que se va a estar viendo en la pantalla
         
         # """
         # matrix
@@ -59,9 +60,6 @@ class Camera(object):
 
         # """
 
-        camMatrix = glm.inverse(viewMatrix)
-
-        self.rotation = glm.degrees(glm.eulerAngles( glm.quat_cast(camMatrix) ) )  #nos da los angulos de euler
 
     def Orbit(self, center, distance, angleX, angleY): 
     
