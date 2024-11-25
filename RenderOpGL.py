@@ -14,7 +14,13 @@ pygame.init()
 
 screen = pygame.display.set_mode((width, height), pygame.OPENGL | pygame.DOUBLEBUF) #pygame.OPENGL Para dibujar pixles con open gl, # | pygame.DOUBLEBUF Para que no se vea el parpadeo  #| es un bitwise or
 clock = pygame.time.Clock()
+pygame.display.set_caption("Proyecto 3 🤑")
 rend  = Renderer(screen)
+pygame.mixer.music.load('audio/navidad.mp3')
+pygame.mixer.music.play(-1)
+hohoho_sound = pygame.mixer.Sound('audio/hohoho.mp3')
+bells_sound = pygame.mixer.Sound('audio/bells.mp3')
+goofy_sound = pygame.mixer.Sound('audio/goofy.mp3')
 
 skyboxTextures = ["textures/Forest/negx.jpg", 
                   "textures/Forest/posx.jpg", 
@@ -70,13 +76,12 @@ rend.scene.append(santaModel)
 
 
 isRunning = True
-vShader  = vertex_shader
-fShader  = fragment_shader
 
 camDistance = 10 #esta es la que se manipula para el zoom in y out
 camAngle = 0
 camAngleY =40
 camAngleX = 0
+viewModel = treeModel.translation
 
 #limites
 minCamAngleY = -55
@@ -84,9 +89,6 @@ maxCamAngleY = 55
 
 minCamDistance = 1.8
 maxCamDistance = 15
-
-
-rend.SetShaders(vShader, fShader)
 
 while isRunning: 
     deltaTime = clock.tick(60) / 1000.0
@@ -114,55 +116,74 @@ while isRunning:
                 rend.FilledMode()
                 
             if event.key == pygame.K_2:
-                #reset
-                vShader = vertex_shader
-                fShader = fragment_shader
-                rend.SetShaders(vShader, fShader)
-                
+                #reset shaders 
+                giftsModel.vShader = vertex_shader; giftsModel.fShader = fragment_shader
+                treeModel.vShader = vertex_shader;treeModel.fShader = fragment_shader
+                santaModel.vShader = vertex_shader; santaModel.fShader = fragment_shader
+                reindeerModel.vShader = vertex_shader; reindeerModel.fShader = fragment_shader
+                reindeerModel2.vShader = vertex_shader; reindeerModel2.fShader = fragment_shader
+                viewModel = treeModel.translation
+                camDistance = 10
+                santaModel.translation.x = 3
+                santaModel.translation.z = -5
+                santaModel.scale.x = 0.015
+                santaModel.scale.y = 0.015
+                santaModel.scale.z = 0.015
+
             if event.key == pygame.K_3:
-                vShader = vertex_shader
-                fShader = rainbow_shader
-                rend.SetShaders(vShader, fShader)
+                goofy_sound.play()
+                viewModel = reindeerModel2.translation 
+                camDistance = 3
 
             if event.key == pygame.K_4:
-                #
-                giftsModel.fShader = rainbow_shader
-                treeModel.fShader = water_color_shader
-                # giftsModel.SetShaders(giftsModel.vShader, giftsModel.fShader)
-                # treeModel.SetShaders(treeModel.vShader, treeModel.fShader)
-                # rend.SetShaders(giftsModel.vShader, giftsModel.fShader)
-                # rend.SetShaders(treeModel.vShader, treeModel.fShader)
+                bells_sound.play()
+                viewModel = giftsModel.translation 
+                camDistance = 5    
 
             if event.key == pygame.K_5:
-                #
-                vShader = water_shader
-                fShader = water_color_shader
-                rend.SetShaders(vShader, fShader)
+                hohoho_sound.play()
+                viewModel = santaModel.translation  
+                camDistance = 8  
                 
-
             if event.key == pygame.K_6:
-                #vShader = fat_shader
-                # fShader = negative_shader
-                vShader = rotate1_shader
-                fShader = rainbow_shader
-                rend.SetShaders(vShader, fShader)
+                giftsModel.fShader = rainbow_shader
+                treeModel.fShader = rainbow_shader
+                santaModel.fShader = rainbow_shader
+                reindeerModel.fShader = rainbow_shader
+                reindeerModel2.fShader = rainbow_shader
                 
             if event.key == pygame.K_7:
-                vShader = close_shader
-                rend.SetShaders(vShader, fShader)
+                treeModel.fShader = rainbow_shader
+                giftsModel.vShader = close_shader
+                reindeerModel2.vShader = rotate1_shader
 
             if event.key == pygame.K_8:
-                fShader = radioactive_shader 
-                rend.SetShaders(vShader, fShader)
+                reindeerModel.vShader = water_shader
+                reindeerModel2.vShader = water_shader
+                giftsModel.vShader = water_shader
+
+                reindeerModel.fShader = water_color_shader
+                reindeerModel2.fShader = water_color_shader
+                giftsModel.fShader = water_color_shader
+
+                treeModel.fShader = negative_shader
+                santaModel.fShader = radioactive_shader
 
             if event.key == pygame.K_9:
-                fShader = distorsion_shader 
-                rend.SetShaders(vShader, fShader)
+                #distorsion_shader
+                reindeerModel.fShader = distorsion_shader
+                reindeerModel2.fShader = distorsion_shader
+                santaModel.fShader = distorsion_shader
+                treeModel.vShader = rotate3_shader
                
             if event.key == pygame.K_0:
-                treeModel.translation.z =-16
+                santaModel.translation.x =0
+                santaModel.translation.z = 1
+                santaModel.scale.x = 0.008
+                santaModel.scale.y = 0.008
+                santaModel.scale.z = 0.008
                 vShader = rotate_shader 
-                rend.SetShaders(vShader, fShader)
+                santaModel.vShader = vShader
   
     if keys[K_LEFT]:
         rend.pointLight.x -= 10 * deltaTime
@@ -213,14 +234,13 @@ while isRunning:
     camDistance = max(minCamDistance, min(camDistance, maxCamDistance))
     camAngleY = max(minCamAngleY, min(camAngleY, maxCamAngleY))
 
-
-    # rend.camera.LookAt(faceModel.translation)
-    rend.camera.Orbit(treeModel.translation, camDistance, camAngleX, camAngleY)
+    rend.camera.LookAt(viewModel)
+    rend.camera.Orbit(viewModel, camDistance, camAngleX, camAngleY)
     rend.time += deltaTime #delta time la acumulacion de los cuadros
 
     rend.Render()
     pygame.display.flip()
     
-
+pygame.mixer.music.stop()
 pygame.quit()
 

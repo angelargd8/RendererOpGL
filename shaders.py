@@ -99,7 +99,7 @@ uniform mat4 projectionMatrix;
 
 void main()
 {
-    outPosition = modelMatrix * vec4(position + vec3(0, 1, 0) *sin(time * position.x * 5 ) / 20, 1.0);
+    outPosition = modelMatrix * vec4(position + vec3(0, 1, 0) *sin(time * position.x * 2 ) / 8, 1.0);
     gl_Position = projectionMatrix * viewMatrix * outPosition;
     outTexCoords = texCoords;
     outNormals = normals; 
