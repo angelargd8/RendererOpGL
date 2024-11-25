@@ -48,18 +48,6 @@ class Camera(object):
         self.usingLookAt = True
         self.viewMatrix = glm.lookAt(self.position, center, glm.vec3(0,1,0)) #glm.ve3 es el vector de arriba, el vector de arriba es el vector que se va a estar viendo en la pantalla
         
-        # """
-        # matrix
-        # 1,0,0,0
-        # 0,1,0,0
-        # 0,0,1,0
-        # 0,0,0,1
-        
-        # quaternion
-        # x, y, z, w
-
-        # """
-
 
     def Orbit(self, center, distance, angleX, angleY): 
     

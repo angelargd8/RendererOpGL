@@ -9,7 +9,8 @@ class Renderer(object):
         self.screen = screen
         _,_ , self.width, self.height = screen.get_rect()
         
-        glClearColor(0.2, 0.2,0.2, 1)
+        # glClearColor(0.2, 0.2,0.2, 1)
+        glClearColor(0,0,0,1)
 
         glEnable(GL_DEPTH_TEST)
         # glEnable(GL_TEXTURE_2D)
@@ -19,8 +20,9 @@ class Renderer(object):
         self.camera = Camera(self.width, self.height)
         self.time = 0
         self.value = 0
+        self.lightIntensity = 0.1
 
-        self.pointLight = glm.vec3(0,0,0)
+        self.pointLight = glm.vec3(-10,3,0)
         
         self.scene= []
         self.active_shaders = None
@@ -60,7 +62,7 @@ class Renderer(object):
             
             glUniform1f(glGetUniformLocation(self.active_shaders, "time") , self.time)
 
-            glUniform1f(glGetUniformLocation(self.active_shaders, "lightIntensity") , 0.5)
+            glUniform1f(glGetUniformLocation(self.active_shaders, "lightIntensity") , self.lightIntensity)
         
             glUniformMatrix4fv(glGetUniformLocation(self.active_shaders, "viewMatrix"), #ubicacion
                                           1, GL_FALSE, #matrices

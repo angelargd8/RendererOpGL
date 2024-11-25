@@ -18,6 +18,17 @@ class Model(object):
         self.translation = glm.vec3(0,0,0)
         self.rotation= glm.vec3(0,0,0)
         self.scale = glm.vec3(1,1,1)
+
+        self.visible = False
+        self.textures=[]
+
+        self.vShader = None
+        self.fShader = None
+
+    def SetShaders(self, vShader, fShader):
+        self.vShader = vShader
+        self.fShader = fShader
+        # self.buffer.SetShaders(vShader, fShader)
      
     def GetModelMatrix(self):
         # M = T * R * S
